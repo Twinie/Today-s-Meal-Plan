@@ -5,16 +5,16 @@ import {userSchema} from "../../users/models/user.schema.js";
 
 const UserModel = mongoose.model("User", userSchema);
 
-export const saveMenuSelectedRepo = async(item) => {
-    // console.log(item.data)
-    const foundUser = await UserModel.findById(item.data.createdBy);
-    if(foundUser){
-        const newMenuItem = await MenuModel(item.data).save();
-        return {newMenuItem, foundUser}
-    }else{
-        return false;
-    }
-}
+// export const saveMenuSelectedRepo = async(item) => {
+//     console.log(item.data.data)
+//     const foundUser = await UserModel.findById(item.data.createdBy);
+//     if(foundUser){
+//         const newMenuItem = await MenuModel(item.data.data).save();
+//         return {newMenuItem, foundUser}
+//     }else{
+//         return false;
+//     }
+// }
 
 export const getAllItemsRepo = async() => {
     return await ItemModel.find();
@@ -26,10 +26,12 @@ export const getMenuRepo = async (id, item) => {
 
 export const updateMenuRepo = async (item) => {
     
-    // const foundUser = await MenuModel.findOne(item.createdBy);
-    // console.log(new Date().toISOString().slice(0,10))
-    // if(item.createdAt.slice(0,10) === new Date().toISOString().slice(0,10)){
-        return await MenuModel.updateOne({createdBy: item.createdBy, createdAt: item.createdAt}, {items: item.items});
-    // }
+    const foundUser = await MenuModel.findOne({ 'createdAt': item.createdAt, 'createdBy': item.createdBy});
+    // console.log(foundUser)
+    if(foundUser){
+        return await foundUser.updateOne({items: item.items});
+    }else{
+        return await MenuModel(item).save();
+    }
 
 };

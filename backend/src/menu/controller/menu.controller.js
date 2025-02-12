@@ -1,4 +1,4 @@
-import { getMenuRepo, saveMenuSelectedRepo, getAllItemsRepo, updateMenuRepo } from "../models/menu.repo.js";
+import { getMenuRepo, getAllItemsRepo, updateMenuRepo } from "../models/menu.repo.js";
 
 export const getMenu = async(req, res) => {
     try{
@@ -31,26 +31,26 @@ export const getAllItems = async(req, res) => {
     }
 }
 
-export const saveMenuSelected= async(req, res) => {
-  try{
-      console.log(req.body.data)
-      const data = await saveMenuSelectedRepo(req.body);
-      console.log(data)
-      if (data) {
-          res.status(201).json({ success: true, item: data.newMenuItem, user: data.foundUser.name });
-        } else {
-          return res.status(400).json({ success: false});
-        }
-  }catch(err){
-      console.log(err)
-  }
-}
+// export const saveMenuSelected= async(req, res) => {
+//   try{
+//       console.log(req.body.data)
+//       const data = await saveMenuSelectedRepo(req.body);
+//       console.log(data)
+//       if (data) {
+//           res.status(201).json({ success: true, item: data.newMenuItem, user: data.foundUser.name });
+//         } else {
+//           return res.status(400).json({ success: false});
+//         }
+//   }catch(err){
+//       console.log(err)
+//   }
+// }
 
 export const updateMenu = async(req, res) => {
   try{
-      console.log(req.body)
+      // console.log(req.body)
       const data = await updateMenuRepo(req.body.data);
-      console.log(data)
+      // console.log(data)
       if (data) {
           res.status(201).json({ success: true});
         } else {

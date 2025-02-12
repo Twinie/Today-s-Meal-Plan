@@ -23,6 +23,7 @@ function App() {
   }, []);
 
   function fetchSelectedData(){
+    
     let month = new Date().getMonth()+1;
     let presentDate = new Date().getDate();
     if(month < 10){
@@ -55,7 +56,7 @@ function App() {
    function handleSubmit(e){
     e.preventDefault();
     //  setFormData({user: formData.user, date: new Date().toDateString().slice(0,15), recipe: formData.recipe});
-    alert("Recipe Selected")
+
     let data = {
       data:{
         createdBy: formData.user,
@@ -64,30 +65,34 @@ function App() {
         // mealtype: "Dinner"
       }
     }
-     const options = {
+    const options = {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-  };
+    };
 
-    console.log(formData.user, data.data.createdBy, new Date().toISOString().slice(0,10));
-    if(formData.user === data.data.createdBy && new Date().toISOString().slice(0,10) === data.data.createdAt){
-      console.log("UPDATE")
-      fetch("http://localhost:3001/api/menu/update", options)
-      .then(response => response.json())
-      .then(data => fetchSelectedData())
-    }else{
-      console.log("NEW ITEM")
-      fetch("http://localhost:3001/api/menu/menus", options)
-      .then(response => response.json())
-      .then(data => fetchSelectedData())
-    }
+    // console.log(formData.user, data.data.createdBy, new Date().toISOString().slice(0,10), data.data.createdAt);
+    // if(formData.user === data.data.createdBy && new Date().toISOString().slice(0,10) === data.data.createdAt){
+      // console.log("UPDATE")
+      
+        fetch("http://localhost:3001/api/menu/update", options)
+        .then(response => response.json())
+        .then(data => {
+        alert("Recipe Selected")
+        fetchSelectedData()}).catch(err=>alert("Select an Item"))
+    // }else{
+    //   console.log("NEW ITEM")
+    //   fetch("http://localhost:3001/api/menu/menus", options)
+    //   .then(response => response.json())
+    //   .then(data => fetchSelectedData())
+    // }
+    setFormData({user:"", recipe:""})
   }
   return (
     <div className="App">
-      <h1>Food menu Selection</h1>
+      <h1 className='title'>Food menu Selection</h1>
       <h4>Get your job faster to select dinner item with your Hubby by putting up your selected meal for today and get the job done faster</h4>
       <form action="" method='post' onSubmit={handleSubmit}> 
       {/* <label htmlFor="name">Enter your name: </label>
@@ -109,14 +114,17 @@ function App() {
       ))}
 
       <p>Please select your food-item:</p>
+      <select className='select-item' name="menuItem" id='menuItem' onChange={handleRecipe}>
       {items.map((item, index)=>(
         <Fragment key={index}>
 
-        <input type='radio' id={item._id} name='menuItem' value={item.item} checked={formData.recipe === item.item} onChange={handleRecipe} />
-        <label htmlFor={item._id} > {item.item} </label><br/><br/>
+        {/* <input type='radio' id={item._id} name='menuItem' value={item.item} checked={formData.recipe === item.item} onChange={handleRecipe} /> */}
+        {/* <label htmlFor={item._id} > {item.item} </label><br/><br/> */}
+          <option value={item.item} checked={formData.recipe === item.item}>{item.item}</option>
+
         </Fragment>
       ))}
-      
+      </select>
       <input type="submit" value="Submit" className='submit-btn' />
 
 
@@ -126,17 +134,28 @@ function App() {
       {/* if item is selected by any one of the person then that item should be displayed on screen */}
 
       <div>
+      <table className='display-table'> 
+                      <tr>
+                        <th>Name</th>
+                        <th>Menu item</th>
+                      </tr>
         {recipeSelected.map((data, ind)=>{
           // console.log(data.createdAt.slice(0,10), new Date().toISOString().slice(0,10))
           if(data.createdAt.slice(0,10) === new Date().toISOString().slice(0,10)){
             // console.log(true)
-            return <h3 key={ind}>Item selected by {data.createdBy.name }: {data.items}</h3>
+            // return <h3 key={ind}>Item selected by {data.createdBy.name }: {data.items}</h3>
+            return <tr>
+                        <td>{data.createdBy.name }</td>
+                        <td>{data.items}</td>
+                      </tr>
+
           }else{
             // console.log(false)
             return false
           }
           
         })}
+        </table>
       </div>
     </div>
   );
