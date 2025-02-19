@@ -4,7 +4,7 @@ const itemSchema = new mongoose.Schema(
     {
         item: {
             type: String,
-            // required: [true, "Enter your Name"]
+            required: [true, "Enter the Item's Name"]
         }
     }
 )

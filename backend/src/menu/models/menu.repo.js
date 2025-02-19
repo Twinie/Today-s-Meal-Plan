@@ -1,9 +1,6 @@
 import ItemModel from "./item.schema.js";
 import MenuModel from "./menu.schema.js";
-import mongoose from "mongoose";
-import {userSchema} from "../../users/models/user.schema.js";
 
-const UserModel = mongoose.model("User", userSchema);
 
 // export const saveMenuSelectedRepo = async(item) => {
 //     console.log(item.data.data)

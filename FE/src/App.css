@@ -13,9 +13,14 @@ body{
   background-color: beige;
 }
 
+a{
+  text-decoration: none;
+}
+
 .title{
   padding: 10px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
   border: 1px solid goldenrod;
   border-radius: 10px;
   background-color: goldenrod;
@@ -42,3 +47,9 @@ body{
   text-align: left;
   padding: 8px;
 }
+
+p{
+  font-size: 16px;
+  font-weight: 700;
+}
+ 

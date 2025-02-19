@@ -1,6 +1,6 @@
 import express from "express";
 import { getAllItems, getMenu, updateMenu } from "../controller/menu.controller.js";
-import { getAllUsersRepo } from "../../users/models/user.repo.js";
+import { addItem } from "../controller/item.controller.js";
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ router.route("/menus").get(getMenu)
 // POST Routes
 router.route("/update").post(updateMenu);
 // router.route("/menus").post(saveMenuSelected);
+
+router.route("/add").post(addItem);
 
 export default router;
